@@ -1,7 +1,10 @@
 # discord-accountant-lol
 Yep... it's a discord accountant... fight me
 
-## **Dependencies:** discord.py, SQLite... suprised there isn't more but i'm just that good.
+## **Dependencies:** 
+> - discord.py
+> - SQLite...
+> suprised there isn't more but i'm just that good.
 
 **TL;DR:**
 Brief summary of each command:
@@ -49,3 +52,36 @@ toBefore - see fromBefore
 fromAfter - balance after transaction
 toAfter - balance after transaction
 ```
+
+### Example table creation transactions
+```
+CREATE TABLE transactionTable (
+    id INTEGER PRIMARY KEY,
+    sen TEXT,
+    rec TEXT,
+    type TEXT,
+    amount INTEGER,
+    date INTEGER,
+    fromBefore INTEGER,
+    toBefore INTEGER,
+    fromAfter INTEGER,
+    toAfter INTEGER)
+;
+```
+
+```
+CREATE TABLE accTable 
+    (id INTEGER PRIMARY KEY,
+    description TEXT,
+    type TEXT,
+    balance INTEGER)
+;
+```
+
+## Changelog
+v1.0 - trixiewasanegg - Initial Release\
+v1.01 - trixiewasanegg - Fixed issue with columns during creation, documented table creation
+
+TO DO:
+
+build table creation into initial runs
