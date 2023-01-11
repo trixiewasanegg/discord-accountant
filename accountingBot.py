@@ -37,6 +37,7 @@ async def on_ready():
 @bot.command(name='accountinghelp', help='Detailed Help Text')
 async def help(ctx):
     output = """Brief summary of each command:
+    _!config VARIABLE VALUE_ - used to configure variables. Call this without any varables to get list of variables
     _!rate_ - prints current daily rate and days until payday
     _!summary_ *TYPE* - Gives a summary of either *accounts* or *transactions*
     _!addaccount DESC TYPE BALANCE_ - Adds a new account, type must be either save or spend
