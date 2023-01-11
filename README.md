@@ -80,7 +80,8 @@ CREATE TABLE accTable
 
 ## Changelog
 v1.0 - trixiewasanegg - Initial Release\
-v1.01 - trixiewasanegg - Fixed issue with columns during creation, documented table creation
+v1.01 - trixiewasanegg - Fixed issue with columns during creation, documented table creation\
+v1.02 - trixiewasanegg - updated to fix broken discord.py update
 
 TO DO:
 
