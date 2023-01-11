@@ -81,7 +81,8 @@ CREATE TABLE accTable
 ## Changelog
 v1.0 - trixiewasanegg - Initial Release\
 v1.01 - trixiewasanegg - Fixed issue with columns during creation, documented table creation\
-v1.02 - trixiewasanegg - updated to fix broken discord.py update
+v1.02 - trixiewasanegg - updated to fix broken discord.py update\
+v1.1 - trixiewasanegg - added functionality to allow for different paydays & pay period\
 
 TO DO:
 
