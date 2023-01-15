@@ -53,37 +53,14 @@ fromAfter - balance after transaction
 toAfter - balance after transaction
 ```
 
-### Example table creation transactions
+### varTable; for storing variables:
 ```
-CREATE TABLE transactionTable (
-    id INTEGER PRIMARY KEY,
-    sen TEXT,
-    rec TEXT,
-    type TEXT,
-    amount INTEGER,
-    date INTEGER,
-    fromBefore INTEGER,
-    toBefore INTEGER,
-    fromAfter INTEGER,
-    toAfter INTEGER)
-;
-```
-
-```
-CREATE TABLE accTable 
-    (id INTEGER PRIMARY KEY,
-    description TEXT,
-    type TEXT,
-    balance INTEGER)
-;
+variable - variable to configure
+value - value of variable
 ```
 
 ## Changelog
 v1.0 - trixiewasanegg - Initial Release\
 v1.01 - trixiewasanegg - Fixed issue with columns during creation, documented table creation\
 v1.02 - trixiewasanegg - updated to fix broken discord.py update\
-v1.1 - trixiewasanegg - added functionality to allow for different paydays & pay period\
-
-TO DO:
-
-build table creation into initial runs
+v1.1 - trixiewasanegg - added functionality to allow for different paydays & pay period, removed requirement for variables.config and stored variables in the sqlite DB which makes so much more sense in hindsight but -.-, built setup.py\

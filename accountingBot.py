@@ -1,23 +1,18 @@
 import modules
 import discord
+import sqlite3
 from discord.ext import commands
 
 validTransCodes = ""
 for trans in modules.types:
     validTransCodes = "\t\t\t" + trans + "\n" + validTransCodes
 
-variable = []
-variableVal = []
+dbLocn = "mainDB.db"
+connection = sqlite3.connect(dbLocn)
+cursor = connection.cursor()
 
-config = open("variables.config", "r")
-for line in config:
-    split = line.split(':')
-    variable.append(split[0])
-    variableVal.append(split[1])
-config.close()
-
-TOKEN = variableVal[variable.index('DISCORD_TOKEN')]
-GUILD = variableVal[variable.index('DISCORD_GUILD')]
+TOKEN = modules.varFind("DISCORD_TOKEN")
+GUILD = modules.varFind("DISCORD_GUILD")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -37,7 +32,7 @@ async def on_ready():
 @bot.command(name='accountinghelp', help='Detailed Help Text')
 async def help(ctx):
     output = """Brief summary of each command:
-    _!config VARIABLE VALUE_ - used to configure variables. Call this without any varables to get list of variables
+    _!config VARIABLE VALUE_ - used to configure variables. Call this without any varables to get list that can be configured
     _!rate_ - prints current daily rate and days until payday
     _!summary_ *TYPE* - Gives a summary of either *accounts* or *transactions*
     _!addaccount DESC TYPE BALANCE_ - Adds a new account, type must be either save or spend
@@ -71,6 +66,11 @@ async def rate(ctx):
 @bot.command(name='addaccount', help='adds new account')
 async def addacc(ctx, desc, typ, balance):
     output = modules.addAccount(desc, typ, balance)
+    await ctx.send(output)
+
+@bot.command(name='config', help='configures variables')
+async def config(ctx, var=0, val=0):
+    output = modules.config(var,val)
     await ctx.send(output)
 
 bot.run(TOKEN)
