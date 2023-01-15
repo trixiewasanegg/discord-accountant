@@ -1,2 +1,4 @@
 *.db
 variables.config
+/__pycache__/
+transaction.log

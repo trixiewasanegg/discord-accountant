@@ -1,21 +1,38 @@
 import sqlite3
 import datetime
 
-variable = []
-variableVal = []
+###Boilerplate
+###Defines empty arrays for later use, pulls variables, etc
 
 types = ["payroll", "transfer", "food", "transport", "rent", "gift", "frivolous", "misc"]
 
-config = open("variables.config", "r")
-for line in config:
-    split = line.split(':')
-    variable.append(split[0])
-    variableVal.append(split[1])
-config.close()
-
-dbLocn = variableVal[variable.index('DATABASE')]
+dbLocn = 'mainDB.db'
 connection = sqlite3.connect(dbLocn)
 cursor = connection.cursor()
+
+def varFind(var):
+    try:
+        a = cursor.execute("SELECT \"value\" from \"varTable\" WHERE \"variable\" LIKE \"" + var + "\";").fetchone()
+        val = a[0]
+    except:
+        print("Value of " + var + " not found")
+        val = 0
+    return val
+
+payPeriod = int(varFind("PAYPERIOD"))
+offset = int(varFind("OFFSET"))
+
+def valUpdate():
+    global payPeriod
+    global offset
+
+    payPeriod = int(varFind("PAYPERIOD"))
+    offset = int(varFind("OFFSET"))
+
+#Defines start date as 01/01/2018 purely because 2018 starts on a Monday
+epoch = datetime.date(2018,1,1)
+
+###Actual Code begins here
 
 #Generates Timestamp
 def timestamp():
@@ -26,7 +43,7 @@ def timestamp():
 #Documents transactions
 def document(array):
     #Finds LogFile Location from config file and opens it
-    logfile = variableVal[variable.index('LOGFILE')]
+    logfile = varFind('LOGFILE')
     log = open(logfile, "a")
     #runs through array and appends new lines
     for trans in array:
@@ -36,8 +53,7 @@ def document(array):
 
 #Calculates days left in entitlement period
 def daysLeft():
-    #Defines first ever date of pay cycle with Probe
-    startDate = datetime.date(2020, 12, 9)
+    startDate = epoch + datetime.timedelta(offset)
 
     #Gets today's date
     current = datetime.date.today()
@@ -46,21 +62,17 @@ def daysLeft():
     delta = (current - startDate).days
 
     #Gets remainder after dividing by 14 then gets remainder
-    modulo = delta % 14
-    remain = 14-modulo
+    remain = payPeriod - (delta % payPeriod)
 
     return remain
 
 #Calculates current day
 def currToday():
-    #Defines first ever date of pay cycle with Probe
-    startDate = datetime.date(2020, 12, 9)
-
     #Gets today's date
     current = datetime.date.today()
     
     #Gets difference in days
-    delta = (current - startDate).days
+    delta = (current - epoch).days
 
     return delta
 
@@ -253,3 +265,48 @@ def addAccount(desc, typ, balance):
     count = id[0]
     output = "Generated new account " + str(desc) + " of ID " + str(count[0]) + ". Balance = $" + str(balance) + "."
     return output
+
+#Config function
+def config(variable=0, value=0):
+    transactions = []
+
+    variables = cursor.execute("SELECT \"variable\" from \"varTable\"").fetchall()
+
+    restrictedVariables = ["DISCORD_TOKEN", "DISCORD_GUILD", "LOGFILE"]
+
+    varStr = ""
+
+    for n in variables:
+        a = n[0]
+        if not(a in restrictedVariables):
+            varStr = a + "; " + varStr
+
+    if variable in restrictedVariables:
+        a = [variable + ' attempted to be configured via discord']
+        document(a)
+        return "Cannot configure variable, please configure via the Command Line."
+    else:
+        if variable != 0:
+            command = "UPDATE \"varTable\" SET \"value\" = '" + str(value) + "' WHERE \"variable\" LIKE \"" + str(variable) + "\";"
+            transactions.append(command)
+            cursor.execute(command)
+            connection.commit()
+            document(transactions)
+
+        valUpdate()
+
+        if variable == 0:
+            output = """Currently configured as follows:
+            Your budget will reset every """ + str(payPeriod) + """ days. The current offset is """ + str(offset) + """ days. \"Payday\" is in """ + str(daysLeft()) + """ days.
+            Valid variables are """ + varStr
+        else:
+            output = "Config sucessfully updated for " + str(variable) + "\n"
+            if variable == "PAYPERIOD":
+                output = output + "Your budget will reset every " + str(payPeriod) + " days.\n"
+
+            if variable == "OFFSET":
+                output = output + "The current offset is " + str(offset) + " days.\n"
+            
+            output = output + "You will be paid in " + str(daysLeft()) + " days with an offset of " + str(offset) + "."
+
+        return output
