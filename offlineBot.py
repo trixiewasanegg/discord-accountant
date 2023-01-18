@@ -26,16 +26,17 @@ while True:
     _!rate_ - prints current daily rate and days until payday
     _!summary_ *TYPE* - Gives a summary of either *accounts* or *transactions*
     _!addaccount DESC TYPE BALANCE_ - Adds a new account, type must be either save or spend
-    _!transaction_ *FROM TO TYPE AMOUNT* - Actions a transaction, from and to must be the account's IDs (found in !summary)
+    _!transaction_ *FROM TO TYPE DESC AMOUNT* - Actions a transaction, from and to must be the account's IDs (found in !summary)
     Valid transaction codes are: \n""" + validTransCodes
 
     if transac == "transaction":
         try:
             take = com[1]
             add = com[2]
-            cat = com[3]
+            desc = com[3]
+            cat = com[4]
             amount = float(amount)*100
-            output = modules.transaction(take, add, cat, amount)
+            output = modules.transaction(take, add, cat, desc, amount)
         except:
             output = "too few variables"
     

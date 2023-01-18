@@ -14,6 +14,7 @@ transactions.append("""CREATE TABLE transactionTable (
     rec TEXT,
     type TEXT,
     amount INTEGER,
+    desc TEXT,
     date INTEGER,
     fromBefore INTEGER,
     toBefore INTEGER,

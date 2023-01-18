@@ -96,7 +96,7 @@ def currRateCalc():
     return rateInDol
 
 #Records Transaction
-def transaction(take, add, cat, amount):
+def transaction(take, add, cat, desc, amount):
     #defines empty array to write to transactions
     transactions = []
     transType = ""
@@ -164,7 +164,7 @@ def transaction(take, add, cat, amount):
         # generates SQL command to insert to transactionTable, appends transactions[], then executes
         # TL;DR: this fuck off long command pulls the variables from the previous 20 fucking lines and appends them all.
         # I know this command isn't rly human readable, eat my ass
-        command = "INSERT INTO  \"transactionTable\" (\"sen\", \"rec\", \"type\", \"amount\", \"date\", \"fromBefore\", \"toBefore\", \"fromAfter\", \"toAfter\") VALUES ('" + str(take) + "', '" + str(add) + "', '" + str(cat) + "', '" + str(amount) + "', '" + str(today) + "', '" + str(takeInBalance) + "', '" + str(addInBalance) + "', '" + str(takeOutBalance) + "', '" + str(addOutBalance) + "');"
+        command = "INSERT INTO  \"transactionTable\" (\"sen\", \"rec\", \"type\", \"amount\", \"date\", \"desc\", \"fromBefore\", \"toBefore\", \"fromAfter\", \"toAfter\") VALUES ('" + str(take) + "', '" + str(add) + "', '" + str(cat) + "', '" + str(amount) + "', '" + str(today) + "', '" + str(desc) + "', '" + str(takeInBalance) + "', '" + str(addInBalance) + "', '" + str(takeOutBalance) + "', '" + str(addOutBalance) + "');"
         transactions.append(command)
         cursor.execute(command)
 

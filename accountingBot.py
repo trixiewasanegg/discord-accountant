@@ -36,17 +36,17 @@ async def help(ctx):
     _!rate_ - prints current daily rate and days until payday
     _!summary_ *TYPE* - Gives a summary of either *accounts* or *transactions*
     _!addaccount DESC TYPE BALANCE_ - Adds a new account, type must be either save or spend
-    _!transaction_ *FROM TO TYPE AMOUNT* - Actions a transaction, from and to must be the account's IDs (found in !summary)
+    _!transaction_ *FROM TO TYPE DESC AMOUNT* - Actions a transaction, from and to must be the account's IDs (found in !summary)
     Valid transaction codes are: \n""" + validTransCodes
     await ctx.send(output)
 
 @bot.command(name='transaction', help='Will generate a transaction')
-async def trans(ctx, take, add, cat, amount):
+async def trans(ctx, take, add, cat, desc, amount):
     if amount == "":
         await ctx.send("Too few arguments")
     else:
         amountInCents = float(amount)*100
-        output = modules.transaction(take, add, cat, amountInCents)
+        output = modules.transaction(take, add, cat, desc, amountInCents)
         await ctx.send(output)
 
 @bot.command(name='summary', help='Gives a summary of either *accounts* or *transactions*')
