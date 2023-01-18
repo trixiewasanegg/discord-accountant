@@ -4,7 +4,7 @@ import datetime
 ###Boilerplate
 ###Defines empty arrays for later use, pulls variables, etc
 
-types = ["payroll", "transfer", "food", "transport", "rent", "gift", "frivolous", "misc"]
+types = ["payroll", "transfer", "food", "transport", "rent", "gift", "services", "frivolous", "misc"]
 
 dbLocn = 'mainDB.db'
 connection = sqlite3.connect(dbLocn)
