@@ -67,4 +67,5 @@ v1.0 - trixiewasanegg - Initial Release\
 v1.01 - trixiewasanegg - Fixed issue with columns during creation, documented table creation\
 v1.02 - trixiewasanegg - updated to fix broken discord.py update\
 v1.1 - trixiewasanegg - added functionality to allow for different paydays & pay period, removed requirement for variables.config and stored variables in the sqlite DB which makes so much more sense in hindsight but -.-, built setup.py\
-v1.11 - trixiewasanegg - updated documentation, added description column
+v1.11 - trixiewasanegg - updated documentation, added description column\
+v1.111 - trixiewasanegg - fixed a stupid fucking error i forgot to fix in v1.11
